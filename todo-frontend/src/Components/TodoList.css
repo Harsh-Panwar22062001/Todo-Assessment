@@ -1,0 +1,19 @@
+.todo-input {
+    border: 2px solid gray;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.todo-input:focus {
+    border-color: green;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.todo-item button {
+    margin-left: 10px;
+}

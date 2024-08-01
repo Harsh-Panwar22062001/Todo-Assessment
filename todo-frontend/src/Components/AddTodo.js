@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
 
-const AddTodo = ({ addTodo }) => {
+const AddTodo = ({ addTodo, setInputBorderColor }) => {
     const [title, setTitle] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        addTodo(title);
-        setTitle('');
+    const handleChange = (event) => {
+        setTitle(event.target.value);
+        setInputBorderColor(''); // Reset input border color when typing
+    };
+
+    const handleAdd = () => {
+        if (title) {
+            addTodo(title);
+            setTitle('');
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div>
             <input
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Add a new todo"
-                required
+                onChange={handleChange}
+                onFocus={() => setInputBorderColor('green')}  
+                onBlur={() => setInputBorderColor('')}  
+                className="todo-input"  
+                placeholder="Enter task"
             />
-            <button type="submit">Add</button>
-        </form>
+            <button onClick={handleAdd}>Add Task</button>
+        </div>
     );
 };
 

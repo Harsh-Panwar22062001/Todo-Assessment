@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import TodoItem from './TodoItem';
 import AddTodo from './AddTodo';
+import './TodoList.css';  
 
 const TodoList = () => {
     const [todos, setTodos] = useState([]);
+    const [inputBorderColor, setInputBorderColor] = useState('');  
 
     useEffect(() => {
         axios.get('http://localhost:5181/api/todos')
@@ -14,7 +16,10 @@ const TodoList = () => {
 
     const addTodo = (title) => {
         axios.post('http://localhost:5181/api/todos', { title, isCompleted: false })
-            .then(response => setTodos([...todos, response.data]))
+            .then(response => {
+                setTodos([...todos, response.data]);
+                setInputBorderColor(''); // Reset input border color after adding a task
+            })
             .catch(error => console.error('Error adding todo:', error));
     };
 
@@ -33,10 +38,15 @@ const TodoList = () => {
     return (
         <div>
             <h1>Todo List</h1>
-            <AddTodo addTodo={addTodo} />
+            <AddTodo addTodo={addTodo} setInputBorderColor={setInputBorderColor} />
             <ul>
                 {todos.map(todo => (
-                    <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
+                    <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        toggleTodo={toggleTodo}
+                        deleteTodo={deleteTodo}
+                    />
                 ))}
             </ul>
         </div>
